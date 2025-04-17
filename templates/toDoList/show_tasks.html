@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Django</title>
+</head>
+<body>
+    {% if not tasks %}
+        <h1>Terminaste todas tus tareas!!</h1>
+    {% else %}
+        <h1>{{ message }}</h1>
+            <ul>
+                {% for task in tasks %}
+                    <li>{{ task.description }} -- {% if task.completed %}Terminada{% else %}Aun falta por hacer{% endif %}</li>
+                {% endfor %}
+            </ul>
+    {% endif %}
+</body>
+</html>
