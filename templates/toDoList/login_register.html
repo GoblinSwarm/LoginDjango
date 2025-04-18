@@ -2,29 +2,77 @@
 
 {% block title %} Welcome {% endblock %}
 {% block content %}
-<div class="container d-flex align-items-center justify-content-center min-vh-100">
-    <div class="row form-container w-100 justify-content-center">
+<div class="container mt-5">
+    <div class="row justify-content-center">
         <!-- Login -->
-        <div class="col-md-5 login-box me-3">
-            <h3 class="mb-4 text-center">Iniciar Sesión</h3>
+        <div class="col-md-5 bg-white p-4 rounded shadow-sm me-md-4 mb-4 h-200">
+            <h3 class="text-center mb-4">Iniciar sesión</h3>
             <form method="post">
                 {% csrf_token %}
-                {{ login_form.as_p }}
-                <div class="text-center mt-3">
-                    <button type="submit" name="login_submit" class="btn btn-primary">Entrar</button>
+                {{ login_form.non_field_errors }}
+                <div class="mb-3 row align-items-center">
+                    <label for="{{ login_form.username.id_for_label }}" class="col-sm-4 col-form-label">Usuario:</label>
+                    <div class="col-sm-8">
+                        {{ login_form.username }}
+                        {% if login_form.username.errors %}
+                            <div class="text-danger">{{ login_form.username.errors }}</div>
+                        {% endif %}
+                    </div>
                 </div>
+
+                <div class="mb-3 row align-items-center">
+                    <label for="{{ login_form.password.id_for_label }}" class="col-sm-4 col-form-label">Contraseña:</label>
+                    <div class="col-sm-8">
+                        {{ login_form.password }}
+                        {% if login_form.password.errors %}
+                            <div class="text-danger">{{ login_form.password.errors }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <button type="submit" name="login_submit" class="btn btn-primary w-100">Ingresar</button>
             </form>
         </div>
 
         <!-- Registro -->
-        <div class="col-md-5 register-box">
-            <h3 class="mb-4 text-center">Registrarse</h3>
+        <div class="col-md-5 bg-white p-4 rounded shadow-sm mb-4 h-100">
+            <h3 class="text-center mb-4">Registrarse</h3>
             <form method="post">
                 {% csrf_token %}
-                {{ register_form.as_p }}
-                <div class="text-center mt-3">
-                    <button type="submit" name="register_submit" class="btn btn-success">Registrarse</button>
+                {{ register_form.non_field_errors }}
+                <div class="mb-3">
+                    <label for="{{ register_form.username.id_for_label }}" class="form-label">Usuario</label>
+                    {{ register_form.username }}
+                    {% if register_form.username.errors %}
+                        <div class="text-danger">{{ register_form.username.errors }}</div>
+                    {% endif %}
                 </div>
+
+                <div class="mb-3">
+                    <label for="{{ register_form.email.id_for_label }}" class="form-label">Correo electrónico</label>
+                    {{ register_form.email }}
+                    {% if register_form.email.errors %}
+                        <div class="text-danger">{{ register_form.email.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ register_form.password1.id_for_label }}" class="form-label">Contraseña</label>
+                    {{ register_form.password1 }}
+                    {% if register_form.password1.errors %}
+                        <div class="text-danger">{{ register_form.password1.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="{{ register_form.password2.id_for_label }}" class="form-label">Confirmar contraseña</label>
+                    {{ register_form.password2 }}
+                    {% if register_form.password2.errors %}
+                        <div class="text-danger">{{ register_form.password2.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <button type="submit" name="register_submit" class="btn btn-success w-100">Crear cuenta</button>
             </form>
         </div>
     </div>

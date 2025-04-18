@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Django</title>
-</head>
-<body>
-    {% if not tasks %}
+{% extends 'toDoList/master.html' %}
+
+{% block title %} Welcome {% endblock %}
+{% block content %}
+{% if not tasks %}
         <h1>Terminaste todas tus tareas!!</h1>
     {% else %}
         <h1>{{ message }}</h1>
@@ -16,5 +12,4 @@
                 {% endfor %}
             </ul>
     {% endif %}
-</body>
-</html>
+{% endblock %}
