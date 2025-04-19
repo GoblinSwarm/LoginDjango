@@ -1,15 +1,57 @@
 {% extends 'toDoList/master.html' %}
 
-{% block title %} Welcome {% endblock %}
+{% block title %} Tasks {% endblock %}
+
 {% block content %}
-{% if not tasks %}
-        <h1>Terminaste todas tus tareas!!</h1>
-    {% else %}
-        <h1>{{ message }}</h1>
-            <ul>
-                {% for task in tasks %}
-                    <li>{{ task.description }} -- {% if task.completed %}Terminada{% else %}Aun falta por hacer{% endif %}</li>
-                {% endfor %}
-            </ul>
-    {% endif %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card w-75 shadow p-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="text-center">Lista de Tareas</h3>
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-sm">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </form>
+    </div>
+
+    <table class="table table-bordered">
+      <thead class="table-light">
+        <tr>
+          <th>Nombre Tarea</th>
+          <th>Fecha Creada</th>
+          <th>¿Realizada?</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+        <tr>
+          <td>{{ task.title }}</td>
+          <td>{{ task.creation_date|date:"d/m/Y" }}</td>
+          <td>{{ task.completed|yesno:"Sí,No" }}</td>
+          <td>
+            <form method="POST" action="{% url 'toggle-task' task.id %}">
+              {% csrf_token %}
+              {% if task.completed %}
+                <button type="submit" class="btn btn-success btn-sm"><i class="fa-regular fa-circle-play"></i></button>
+              {% else %}
+                <button type="submit" class="btn btn-secondary btn-sm"><i class="fa-solid fa-circle-play"></i></button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="3" class="text-center">No hay tareas aún.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-end mt-3">
+      <a href="{% url 'create-task' %}"" class="btn btn-primary">Crear nueva tarea</a>
+    </div>
+  </div>
+</div>
 {% endblock %}
